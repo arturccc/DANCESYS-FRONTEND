@@ -1,0 +1,15 @@
+:host() {
+	width: 100%;
+}
+
+.container-financeiro {
+	padding: 2rem;
+	height: 100%;
+	width: 100%;
+}
+
+.titulo {
+	font-weight: bold;
+	color: #55371f;
+	margin-bottom: 2rem;
+}

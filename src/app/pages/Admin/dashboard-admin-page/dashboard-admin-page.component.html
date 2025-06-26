@@ -1,0 +1,34 @@
+<div class="w-full flex flex-row h-full">
+	<app-navbar>
+		<app-navbar-button
+			[route]="possibleRoutes.MAIN"
+			[active]="possibleRoutes.MAIN === currentSelectedRoute"
+			(selected)="handleSelectRoute($event)"
+		>
+			<app-icon name="home"></app-icon>
+		</app-navbar-button>
+		<app-navbar-button
+			[route]="possibleRoutes.CALENDAR"
+			[active]="possibleRoutes.CALENDAR === currentSelectedRoute"
+			(selected)="handleSelectRoute($event)"
+		>
+			<app-icon name="calendar"></app-icon>
+		</app-navbar-button>
+		<app-navbar-button
+			[route]="possibleRoutes.INDICADORES"
+			[active]="possibleRoutes.INDICADORES === currentSelectedRoute"
+			(selected)="handleSelectRoute($event)"
+		>
+			<app-icon name="indicadores"></app-icon>
+		</app-navbar-button>
+		<app-navbar-button
+			bottom
+			[route]="possibleRoutes.PROFILE"
+			[active]="possibleRoutes.PROFILE === currentSelectedRoute"
+			(selected)="handleSelectRoute($event)"
+		>
+			<app-icon name="account" [urlFoto]="urlFoto"></app-icon>
+		</app-navbar-button>
+	</app-navbar>
+	<router-outlet />
+</div>

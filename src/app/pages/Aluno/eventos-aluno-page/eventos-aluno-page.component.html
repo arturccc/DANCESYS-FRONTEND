@@ -1,0 +1,89 @@
+<main class="p-8 max-w-full max-h-full h-full overflow-auto max-h-[90vh] app-scrollbar">
+	<section class="flex flex-col pb-4 max-w-full">
+		<div class="flex flex-row space-x-4">
+			<h1 class="text-main-500 text-5xl font-bold">
+				Eventos Disponíveis
+			</h1>
+		</div>
+
+		<div class="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-10 mt-4">
+			<div
+				*ngFor="let evento of eventos?.conteudo"
+				class="border-2 border-main-500 rounded-lg p-4 shadow-md bg-main-300"
+			>
+				<img
+					[src]="evento.urlFoto != null ? evento.urlFoto : './no-image.svg'"
+					alt="{{ evento.nome }}"
+					class="w-full h-48 object-cover rounded-lg mb-4"
+				/>
+				<h2 class="font-semibold text-lg">{{ evento.nome }}</h2>
+				<p class="text-sm text-gray-600">{{ evento.local }}</p>
+				<p class="text-sm text-gray-500">
+					{{ evento.dataHoraInicio | date: "dd/MM/yyyy HH:mm" }} -
+					{{ evento.dataHoraFim | date: "dd/MM/yyyy HH:mm" }}
+				</p>
+				<p class="mt-2 text-sm">Preço: R$ {{ evento.valor }}</p>
+				<button
+					class="bg-main-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-main-600"
+					(click)="
+						evento.id !== undefined
+							? comprarIngresso(evento.id)
+							: null
+					"
+				>
+					Comprar Ingresso
+				</button>
+			</div>
+		</div>
+	</section>
+
+	@if(isModalOpen){
+		<app-modal (onClose)="fecharModal()">
+			<div class="w-full">
+				<header class="border-b-4 border-b-main-500 w-full flex flex-row justify-start">
+					<h1 class="font-bold text-3xl">Compra de Ingresso</h1>
+				</header>
+        		<main>
+					<form (ngSubmit)="processarCompra()" [formGroup]="ingressoForm">
+				<label for="qtdIngressos" class="text-sm"
+					>Quantidade de Ingressos</label
+				>
+				<input
+					id="qtdIngressos"
+					type="number"
+					formControlName="qtdIngressos"
+					min="1"
+					max="10"
+					class="w-full p-2 rounded-md border"
+				/>
+
+				<label for="tipoIngresso" class="mt-3 text-sm"
+					>Tipo de Ingresso</label
+				>
+				<select
+					formControlName="tipoIngresso"
+					class="w-full p-2 rounded-md border"
+				>
+					<option [value]="1">Entrada Normal</option>
+					<option [value]="2">Meia entrada</option>
+				</select>
+
+				<button
+					type="submit"
+					class="mt-4 w-full bg-main-500 text-white p-2 rounded-md"
+				>
+					Comprar Ingresso
+				</button>
+				<button
+					type="button"
+					class="mt-2 w-full bg-red-500 text-white p-2 rounded-md"
+					(click)="fecharModal()"
+				>
+					Fechar
+				</button>
+			</form>
+				</main>
+			</div>
+		</app-modal>
+	}
+</main>

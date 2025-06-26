@@ -1,0 +1,189 @@
+@if(isModal){
+	<app-modal
+		(onClose)="closeModal()"
+	>
+	<div class="w-full">
+		<main class="m-5">
+			<h1 class="text-main-500 text-center break-all">{{ viewItem }}</h1>
+		</main>
+	</div>
+	</app-modal>
+}
+<section>
+	<section class="tabela relative h-full">
+	<div class="tabela-wrapper relative">
+		<table class="w-full">
+			<thead>
+				<tr>
+					<th
+						*ngFor="let coluna of colunas"
+						[style.width]="coluna.width"
+						(click)="
+							(coluna.order ?? true) && ordenarPor(coluna.chave)
+						"
+						[class.cursor-pointer]="coluna.order ?? true"
+						class="select-none"
+					>
+						<div
+							class="w-full flex flex-row justify-center space-x-2 px-6"
+						>
+							<span>{{ coluna.titulo }}</span>
+							<span
+								[ngClass]="{
+									visivel: ordenacao?.chave === coluna.chave,
+									invisivel:
+										ordenacao?.chave !== coluna.chave,
+								}"
+							>
+								{{ ordenacao?.direcao === "asc" ? "▲" : "▼" }}
+							</span>
+						</div>
+					</th>
+
+					@if (botoesAcoes && botoesAcoes.length > 0) {
+						<th>Ações</th>
+					}
+				</tr>
+			</thead>
+			<tbody class="relative">
+				<tr *ngIf="isLoading" class="absolute inset-0 bg-black/80 z-10">
+					<td
+						[attr.colspan]="
+							colunas.length + (botoesAcoes?.length ? 1 : 0)
+						"
+						class="load"
+					>
+						<div class="flex justify-center items-center h-full">
+							<div class="loader"></div>
+						</div>
+					</td>
+				</tr>
+				<tr *ngFor="let item of dados">
+					<td
+						*ngFor="let coluna of colunas"
+						[class]="
+							!(botoesAcoes && botoesAcoes.length > 0)
+								? 'dontHaveButtons'
+								: ''
+						"
+						class="text-center"
+					>
+						@if(coluna.view && (coluna.formatar?.(getValor(item, coluna.chave), item) ??getValor(item, coluna.chave)) != null){
+							<button
+									appButton
+									icon="view"
+									icon-slot="icon-only"
+									title="Ver"
+									color="blue"
+									(click)="view(coluna.formatar
+									? coluna.formatar(
+											getValor(item, coluna.chave),
+											item
+										)
+									: getValor(item, coluna.chave))"
+								></button>
+						}
+
+						@if(!coluna.view){
+							{{
+								coluna.formatar
+									? coluna.formatar(
+											getValor(item, coluna.chave),
+											item
+										)
+									: getValor(item, coluna.chave)
+							}}
+						}
+						
+					</td>
+					@if (botoesAcoes && botoesAcoes.length > 0) {
+						<td [style.width]="actionsWidth">
+							<div
+								class="flex justify-center items-center space-x-3"
+							>
+								<button
+									*ngFor="let botao of botoesAcoes"
+									appButton
+									[icon]="botao.icon ? botao.icon : ''"
+									icon-slot="icon-only"
+									[title]="botao.title"
+									[color]="botao.cor"
+									[text]="botao.text ? botao.text : ''"
+									(click)="botao.callback(item)"
+								></button>
+							</div>
+						</td>
+					}
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+@if (paged) {
+	<section class="flex justify-between items-center mt-4 space-x-2 w-full">
+		<h2 class="text-main-500 font-bold">Total: {{ totalItens }}</h2>
+		<div class="flex justify-end items-center mt-4 space-x-1">
+			<section class="flex flex-row">
+				<button
+					class="flex items-center justify-center bg-main-500 text-white decoration-double w-8 h-8 p-1 rounded-lg mr-1 cursor-pointer"
+					(click)="primeiraPagina()"
+				>
+					<<
+				</button>
+				<button
+					class="flex items-center justify-center bg-main-500 text-white decoration-double w-8 h-8 p-1 rounded-lg mr-3 cursor-pointer"
+					(click)="anteriorPagina()"
+				>
+					<
+				</button>
+
+				<div class="flex">
+					<button
+						*ngFor="let pg of pgsLs"
+						(click)="selecionarPagina(pg)"
+						[ngClass]="{
+							'bg-main-400 text-main-500': pg === paginaSelecionada,
+							'bg-main-500 text-white': pg !== paginaSelecionada,
+						}"
+						class="flex items-center justify-center w-8 h-8 p-1 rounded-lg mr-1 border-2 border-main-500 transition-all cursor-pointer"
+					>
+						{{ pg }}
+					</button>
+				</div>
+
+				<button
+					class="flex items-center justify-center bg-main-500 text-white decoration-double w-8 h-8 p-1 rounded-lg mr-1 ml-2 cursor-pointer"
+					(click)="proximaPagina()"
+				>
+					>
+				</button>
+				<button
+					class="flex items-center justify-center bg-main-500 text-white decoration-double w-8 h-8 p-1 rounded-lg mr-1 cursor-pointer"
+					(click)="ultimaPagina()"
+				>
+					>>
+				</button>
+				<div
+					class="flex items-center justify-center bg-main-500 text-white decoration-double h-8 p-1 rounded-lg ml-2 cursor-pointer"
+				>
+					<form [formGroup]="itensForm">
+						<select
+							name="itensPage"
+							id="itensPage"
+							class="text-white bg-main-500 rounded-lg"
+							formControlName="itensPage"
+						>
+							<option [ngValue]="5">5</option>
+							<option [ngValue]="10">10</option>
+							<option [ngValue]="25">25</option>
+							<option [ngValue]="50">50</option>
+							<option [ngValue]="100">100</option>
+							<option [ngValue]="0">Todos</option>
+						</select>
+					</form>
+				</div>
+			</section>
+		</div>
+	</section>
+}
+</section>

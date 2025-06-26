@@ -1,0 +1,43 @@
+<main class="bg-main-100 -z-20 flex flex-1 flex-col h-full w-full p-8">
+	<header class="w-full px-1 flex flex-row h-10 border-b-main-500 border-b-3">
+		<div class="flex w-2/3">
+			<a
+				routerLink="usuarios"
+				routerLinkActive="bg-main-500 text-white"
+				class="cursor-pointer p-2 text-main-500 font-bold rounded-t-lg px-8 mr-4"
+				>Usuários</a
+			>
+			<a
+				routerLink="aulas"
+				routerLinkActive="bg-main-500 text-white"
+				class="cursor-pointer p-2 text-main-500 font-bold rounded-t-lg px-8 mr-4"
+				>Aulas</a
+			>
+			<a
+				routerLink="horarios"
+				routerLinkActive="bg-main-500 text-white"
+				class="cursor-pointer p-2 text-main-500 font-bold rounded-t-lg px-8 mr-4"
+				>Horarios</a
+			>
+			<a
+				routerLink="financeiro"
+				routerLinkActive="bg-main-500 text-white"
+				class="cursor-pointer p-2 text-main-500 font-bold rounded-t-lg px-8 mr-4"
+				>Financeiro</a
+			>
+			<a
+				routerLink="eventos"
+				routerLinkActive="bg-main-500 text-white"
+				class="cursor-pointer p-2 text-main-500 font-bold rounded-t-lg px-8 mr-4"
+				>Eventos</a
+			>
+			<a
+				routerLink="outros"
+				routerLinkActive="bg-main-500 text-white"
+				class="cursor-pointer p-2 text-main-500 font-bold rounded-t-lg px-8 mr-4"
+				>Outros</a
+			>
+		</div>
+	</header>
+	<router-outlet />
+</main>

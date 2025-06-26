@@ -1,0 +1,33 @@
+<div class="calendario">
+  <div class="header bg-main-500">
+    <button (click)="previousMonth()">◀</button>
+    <span>{{ getMonthYear() }}</span>
+    <button (click)="nextMonth()">▶</button>
+  </div>
+
+  <div class="relative bg-main-300">
+    <div *ngIf="isLoading" class="overlay">
+      <div class="loader"></div>
+    </div>
+    <div class="dias-semana">
+      <div *ngFor="let dia of ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']">
+        {{ dia }}
+      </div>
+    </div>
+
+    <div class="dias">
+      <div *ngFor="let semana of weeks" class="semana">
+          <button
+          *ngFor="let dia of semana"
+          class="dia"
+          [class.selecionado]="dia && isSelected(dia)"
+          [class.com-evento]="dia && hasEvento(dia)"
+          [disabled]="!dia"
+          (click)="onSelectDay(dia)"
+          >
+            {{ dia?.getDate() }}
+          </button>
+      </div>
+    </div>
+  </div>
+</div>
