@@ -67,7 +67,7 @@ export class FigurinosPorAlunoAdminPageComponent {
 	isStatusModalOpen: boolean = false;
 	isDeleteModalOpen: boolean = false;
 	isEdit: boolean = false;
-	selectId: any = 0;
+	selectId: number = 0;
 
 	paginaAtual: number = 0;
 	itensPage: number = 10;
@@ -281,7 +281,7 @@ export class FigurinosPorAlunoAdminPageComponent {
 	}
 
 	status(id: number) {
-		this.selectId = this.status;
+		this.selectId = id;
 		this.isStatusModalOpen = true;
 	}
 
