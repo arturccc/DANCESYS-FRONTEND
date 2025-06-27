@@ -16,7 +16,6 @@
             "outputPath": "dist/front-dance-sys",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "baseHref": "/",
             "polyfills": [
               "zone.js"
             ],
